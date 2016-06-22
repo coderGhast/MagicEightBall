@@ -1,10 +1,3 @@
-function draw(){
- var canvas = document.getElementById("drawing");
- if (canvas.getContext){
-    var context = canvas.getContext('2d');
- }
-}
-
 // Return a random number between 1 and 20 for the resulting response
 function get_response_number() {
     var response = Math.floor((Math.random() * 20) + 1);
@@ -90,9 +83,11 @@ function get_response_text(response_number){
     return response;
 }
 
+// An Object for handling the user data
 var user_information = new Object();
 user_information.previous_questions = ["","",""];
 user_information.previous_response = 0;
+user_information.current_response_number = "";
 
 // Return the previous questions, that should persist through multiple sessions.
 function get_previous_questions(){
@@ -110,6 +105,7 @@ function get_previous_questions(){
     }
 }
 
+// Update the list of questions stored with the new question.
 function update_previous_questions(question){
     user_information.previous_questions.push(question);
     user_information.previous_questions.shift();
@@ -118,12 +114,20 @@ function update_previous_questions(question){
    }
 }
 
-// A user can submit a question to kick off the process of MagicEightBall.
+// Take the question from the DOM and handle running.
+function get_user_question(){
+    var question = document.getElementById('user_question_box').value;
+    user_information.current_response = submit_question(question);
+    update_display();
+    alert(question + " " + user_information.current_response);
+}
+
+// Submit the question for storage and getting response text.
 function submit_question(question){
     update_previous_questions(question);
-    if(user_information.previous_response > 0){
-        return get_new_response_number(user_information.previous_response);
+    if(user_information.previous_response_number > 0){
+        return get_new_response_number(user_information.previous_response_number);
     } else {
-        return get_response_number();
+        return get_response_text(get_response_number());
     }  
 }

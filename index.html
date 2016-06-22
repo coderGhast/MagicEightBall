@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Magic Eight Ball</title>
- <script src="js/magiceightball.js"></script>
+    <title>Magic Eight Ball</title>
+    <script src="js/magiceightball.js"></script>
+    <script src="js/displayfunctions.js"></script>
 </head>
 <body>
  
 
-<canvas id="ball_canvas">
-</canvas>
+<div id="eight_ball_area">
+    <form id="question_form">
+      Enter Question: <input type="text" id="user_question_box"><br>
+      <input type="button" onclick="get_user_question()" value="Turn Over Magic Eight Ball">
+    </form>
+
+    <canvas id="ball_canvas">
+    </canvas>
+</div>
+<div id="questions_list">
+</div>
+
+<script type="text/javascript">
+setup();
+</script>
 
 </body>
 </html>
