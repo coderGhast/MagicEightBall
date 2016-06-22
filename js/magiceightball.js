@@ -89,3 +89,41 @@ function get_response_text(response_number){
     }
     return response;
 }
+
+var user_information = new Object();
+user_information.previous_questions = ["","",""];
+user_information.previous_response = 0;
+
+// Return the previous questions, that should persist through multiple sessions.
+function get_previous_questions(){
+    // Check for HTML5 local storage (supported in most modern browsers, e.g. IE8+ style)
+    if (typeof(Storage) !== "undefined") {
+        var stored_questions = JSON.parse(localStorage.getItem("stored_previous_questions"));
+        if(stored_questions == null || stored_questions.length == 0){
+            return user_information.previous_questions;
+        } else {
+            return stored_questions;
+        }
+    // If no local storage, return the global field of asked questions for this session.
+    } else {
+        return user_information.previous_questions;
+    }
+}
+
+function update_previous_questions(question){
+    user_information.previous_questions.push(question);
+    user_information.previous_questions.shift();
+    if(typeof(Storage) !== "undefined"){
+       localStorage.setItem("stored_previous_questions", JSON.stringify(user_information.previous_questions)); 
+   }
+}
+
+// A user can submit a question to kick off the process of MagicEightBall.
+function submit_question(question){
+    update_previous_questions(question);
+    if(user_information.previous_response > 0){
+        return get_new_response_number(user_information.previous_response);
+    } else {
+        return get_response_number();
+    }  
+}
