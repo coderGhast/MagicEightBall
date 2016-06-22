@@ -84,10 +84,10 @@ function get_response_text(response_number){
 }
 
 // An Object for handling the user data
-var user_information = new Object();
-user_information.previous_questions = ["","",""];
-user_information.previous_response = 0;
-user_information.current_response_number = "";
+var user_data = new Object();
+user_data.previous_questions = ["","",""];
+user_data.previous_response = 0;
+user_data.current_response_number = "";
 
 // Return the previous questions, that should persist through multiple sessions.
 function get_previous_questions(){
@@ -95,39 +95,52 @@ function get_previous_questions(){
     if (typeof(Storage) !== "undefined") {
         var stored_questions = JSON.parse(localStorage.getItem("stored_previous_questions"));
         if(stored_questions == null || stored_questions.length == 0){
-            return user_information.previous_questions;
+            return user_data.previous_questions;
         } else {
             return stored_questions;
         }
     // If no local storage, return the global field of asked questions for this session.
     } else {
-        return user_information.previous_questions;
+        return user_data.previous_questions;
     }
 }
 
 // Update the list of questions stored with the new question.
-function update_previous_questions(question){
-    user_information.previous_questions.push(question);
-    user_information.previous_questions.shift();
+function update_previous_questions(question, response_text){
+    user_data.previous_questions.push(question + " : " + response_text);
+    user_data.previous_questions.shift();
+    // Once the local field is updated, update localStorage too, if possible
     if(typeof(Storage) !== "undefined"){
-       localStorage.setItem("stored_previous_questions", JSON.stringify(user_information.previous_questions)); 
+       localStorage.setItem("stored_previous_questions", JSON.stringify(user_data.previous_questions)); 
    }
 }
 
 // Take the question from the DOM and handle running.
 function get_user_question(){
     var question = document.getElementById('user_question_box').value;
-    user_information.current_response = submit_question(question);
+    user_data.current_response = submit_question(question);
     update_display();
-    alert(question + " " + user_information.current_response);
+    alert(question + " " + user_data.current_response);
 }
 
 // Submit the question for storage and getting response text.
 function submit_question(question){
-    update_previous_questions(question);
-    if(user_information.previous_response_number > 0){
-        return get_new_response_number(user_information.previous_response_number);
+    
+    var response_number;
+    if(user_data.previous_response_number > 0){
+        response_number = get_new_response_number(user_data.previous_response_number);
     } else {
-        return get_response_text(get_response_number());
+        response_number = get_response_number();
     }  
+
+    var response_text = get_response_text(response_number);
+    update_previous_questions(question, response_text);
+    return response_text;
+}
+
+function setup(){
+    // Make a call to get_previous_questions, as this will check our localStorage.
+    user_data.previous_questions = get_previous_questions();
+    setup_canvas();
+    update_display();
 }

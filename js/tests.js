@@ -41,14 +41,15 @@ QUnit.test("should return the expected response for the response number", functi
     assert.equal(get_response_text(20), "Very doubtful");   
 });
 
-// When a question is submitted, save it to show later
+// When a question is submitted, save it to show later - truncating answer response (RNG)
 QUnit.test("should save the last question asked locally (in LocalStorage and/field)", function ( assert ) {
-    var test_question = "some question - test question 1";
+    var test_question = "saved 7";
     submit_question(test_question);
-    assert.equal(get_previous_questions()[2], test_question,  "Matched \'" + test_question + "\'' with \'" + get_previous_questions()[2] + "\'");
+    var previous_question = get_previous_questions()[2].substring(0, 7);
+    assert.equal(previous_question, test_question,  "Matched \'" + test_question + "\'' with \'" + previous_question + "\'");
 });
 
-// Make sure that of the save questions, the oldest is replaced by the newest
+// Make sure that of the save questions, the oldest is replaced by the newest - truncating answer response (RNG)
 QUnit.test("should overwrite the oldest question with the newest", function( assert ){
     var test_question_to_go_away = "some question - test question 1";
     submit_question("saved 1");
@@ -58,6 +59,8 @@ QUnit.test("should overwrite the oldest question with the newest", function( ass
     var previous_question_list = get_previous_questions();
     for(var i=0; i < previous_question_list.length; i++){
         var test_number = i + 2;
-        assert.equal(previous_question_list[i], "saved " + test_number, "Matched \'saved " + test_number + "\' with \'" + previous_question_list[i] + "\'");
+        var test_text = "saved " + test_number;
+        var previous_question = previous_question_list[i].substring(0, 7);
+        assert.equal(previous_question, test_text, "Matched \'" + test_text + "\' with \'" + previous_question + "\'");
     }
 });
