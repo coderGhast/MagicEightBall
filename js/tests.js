@@ -45,7 +45,7 @@ QUnit.test("should return the expected response for the response number", functi
 QUnit.test("should save the last question asked locally (in LocalStorage and/field)", function ( assert ) {
     var test_question = "some question - test question 1";
     submit_question(test_question);
-    assert.equal(get_previous_questions()[2], test_question, "Passed! Previous question was moved to stored list");
+    assert.equal(get_previous_questions()[2], test_question,  "Matched \'" + test_question + "\'' with \'" + get_previous_questions()[2] + "\'");
 });
 
 // Make sure that of the save questions, the oldest is replaced by the newest
@@ -58,6 +58,6 @@ QUnit.test("should overwrite the oldest question with the newest", function( ass
     var previous_question_list = get_previous_questions();
     for(var i=0; i < previous_question_list.length; i++){
         var test_number = i + 2;
-        assert.equal(previous_question_list[i], "saved " + test_number);
+        assert.equal(previous_question_list[i], "saved " + test_number, "Matched \'saved " + test_number + "\' with \'" + previous_question_list[i] + "\'");
     }
 });
