@@ -38,8 +38,14 @@ body{
     width:30%;
     background-color: #ffffff;
     padding:0.3em;
+    height:400px;
 }
 
 #ball_canvas{
     margin-left:20%;
+}
+
+#user_question_box{
+    width:50%;
+    margin-top:0.5em;
 }
