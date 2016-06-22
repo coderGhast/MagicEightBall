@@ -115,12 +115,18 @@ function update_previous_questions(question, response_text){
    }
 }
 
-// Take the question from the DOM and handle running.
+// Take the question from the DOM and handle running, then call to update the display (canvas and list).
 function get_user_question(){
     var question = document.getElementById('user_question_box').value;
-    user_data.current_response = submit_question(question);
-    update_display();
-    alert(question + " " + user_data.current_response);
+    // Check that the user actually entered something, if not, tell them.
+    // We allow a user to enter any question length, as who knows, maybe they have a big one.
+    // No need on restriction (if it was server side processing we WOULD need to restrict).
+    if(question.length == 0 || question == null){
+        alert("Please enter a question");
+    } else {
+        user_data.current_response_number = submit_question(question);
+        update_display();
+    }
 }
 
 // Submit the question for storage and getting response text.
@@ -133,9 +139,11 @@ function submit_question(question){
         response_number = get_response_number();
     }  
 
+    // Update holding on to the last response (the one we just got now).
+    user_data.previous_response_number = response_number;
     var response_text = get_response_text(response_number);
     update_previous_questions(question, response_text);
-    return response_text;
+    return response_number;
 }
 
 function setup(){
