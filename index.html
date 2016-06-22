@@ -12,11 +12,11 @@
 <div id="page">
     <div id="header">
         <div id="header_text">
-            <h2>Magic Eight Ball Simulation</h2>
+            <h1>Magic Eight Ball Simulation</h1>
         </div>
     </div>
     <div id="eight_ball_area">
-        <form id="question_form">
+        <form id="question_form" onsubmit="return false;">
           Enter Question: <input type="text" id="user_question_box">
           <input type="button" onclick="get_user_question()" value="Turn Over Magic Eight Ball">
         </form>
