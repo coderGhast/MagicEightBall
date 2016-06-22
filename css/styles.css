@@ -1,0 +1,41 @@
+body{
+    background-color:#dedede;
+    margin:0px;
+    padding:0px;
+}
+
+#page{
+    width:70%;
+    height:100%;
+    margin:auto;
+}
+
+#header{
+    width:100%;
+    background-color: #cbcbcb;
+    height:120px;
+    margin-top:0px;
+}
+
+#header_text{
+    padding-top:3em;
+    margin:auto;
+    width:50%;
+}
+
+#header_text h2{
+    margin:0px;
+    padding:0px;
+}
+
+#eight_ball_area{
+    float:left;
+    width:67%;
+}
+
+#questions_list_container{
+    float:right;
+    width:30%;
+    background-color: #ffffff;
+    padding:0.3em;
+}

@@ -4,6 +4,8 @@ function setup_canvas(){
     ball_canvas.canvas = document.getElementById("ball_canvas");
     if (ball_canvas.canvas.getContext){
         ball_canvas.context = ball_canvas.canvas.getContext('2d');
+        ball_canvas.canvas.width = 500;
+        ball_canvas.canvas.height = 500;
     }
 }
 
