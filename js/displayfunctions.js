@@ -16,3 +16,5 @@ function update_display(){
     // DOM displaying results
     display_questions_list();
 }
+
+setup();

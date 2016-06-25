@@ -49,7 +49,7 @@ function get_previous_questions(){
     // Check for HTML5 local storage (supported in most modern browsers, e.g. IE8+ style)
     if (typeof(Storage) !== "undefined") {
         var stored_questions = JSON.parse(localStorage.getItem("stored_previous_questions"));
-        if(stored_questions == null || stored_questions.length == 0){
+        if(stored_questions == null || stored_questions.length === 0){
             return user_data.previous_questions;
         } else {
             return stored_questions;
@@ -76,7 +76,7 @@ function get_user_question(){
     // Check that the user actually entered something, if not, tell them.
     // We allow a user to enter any question length, as who knows, maybe they have a big one.
     // No need on restriction (if it was server side processing we WOULD need to restrict).
-    if(question.length == 0 || question == null){
+    if(question.length === 0 || question == null){
         alert("Please enter a question");
     } else {
         user_data.current_response_number = submit_question(question);
