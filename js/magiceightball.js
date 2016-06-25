@@ -14,35 +14,6 @@ function get_new_response_number(last_response) {
     return current_response;
 }
 
-var response_text_choices = [
-    "Failed to understand question",
-    "It is certain",
-    "It is decidedly so",
-    "Without a doubt",
-    "Yes, definitely",
-    "You may rely on it",
-    "As I see it, yes",
-    "Most likely",
-    "Outlook good",
-    "Yes",
-    "Signs point to yes",
-    "Reply hazy try again",
-    "Ask again later",
-    "Better not tell you now",
-    "Cannot predict now",
-    "Concentrate and ask again",
-    "Don't count on it",
-    "My reply is no",
-    "My sources say no",
-    "Outlook not so good",
-    "Very doubtful"
-];
-
-// An Object for handling the user data
-var user_data = new Object();
-user_data.previous_questions = ["","",""];
-user_data.previous_response = 0;
-user_data.current_response_number = "";
 
 // Return the previous questions, that should persist through multiple sessions.
 function get_previous_questions(){
@@ -79,44 +50,54 @@ function get_user_question(){
     if(question.length === 0 || question == null){
         alert("Please enter a question");
     } else {
-        user_data.current_response_number = submit_question(question);
+        user_data.current_response_number = submit_question(question, user_data.previous_response_number);
+        update_previous_questions(question, response_text_choices[user_data.current_response_number]);
         update_display();
     }
 }
 
 // Submit the question for storage and getting response text.
-function submit_question(question){
+function submit_question(question, previous_response_number){
     
     var response_number;
-    if(user_data.previous_response_number > 0){
-        response_number = get_new_response_number(user_data.previous_response_number);
+    if(previous_response_number > 0){
+        response_number = get_new_response_number(previous_response_number);
     } else {
         response_number = get_response_number();
     }  
-
-    // Update holding on to the last response (the one we just got now).
-    user_data.previous_response_number = response_number;
-    var response_text = response_text_choices[response_number];
-    update_previous_questions(question, response_text);
+    
     return response_number;
 }
 
-var ball_canvas = new Object();
-var ball_visual = new Object();
+// An Object for handling the user data
+var user_data = new Object();
+user_data.previous_questions = ["","",""];
+user_data.previous_response = 0;
+user_data.current_response_number = "";
 
-// Setup the canvas for use
-function setup_canvas(){
-    ball_canvas.canvas = document.getElementById("ball_canvas");
-    if (ball_canvas.canvas.getContext){
-        ball_canvas.context = ball_canvas.canvas.getContext('2d');
-        ball_canvas.canvas.width = 400;
-        ball_canvas.canvas.height = 400;
-    }
-    ball_visual.centre_x = ball_canvas.canvas.width / 2;
-    ball_visual.centre_y = ball_canvas.canvas.height / 2;
-    ball_visual.radius = 180;
-    ball_visual.window_radius = 90;
-}
+var response_text_choices = [
+    "Failed to understand question",
+    "It is certain",
+    "It is decidedly so",
+    "Without a doubt",
+    "Yes, definitely",
+    "You may rely on it",
+    "As I see it, yes",
+    "Most likely",
+    "Outlook good",
+    "Yes",
+    "Signs point to yes",
+    "Reply hazy try again",
+    "Ask again later",
+    "Better not tell you now",
+    "Cannot predict now",
+    "Concentrate and ask again",
+    "Don't count on it",
+    "My reply is no",
+    "My sources say no",
+    "Outlook not so good",
+    "Very doubtful"
+];
 
 // Draw a circle to represent to ball.
 function draw_ball(context){
@@ -193,14 +174,6 @@ function draw(){
     }
 }
 
-function setup(){
-    // Make a call to get_previous_questions, as this will check our localStorage.
-    user_data.previous_questions = get_previous_questions();
-    setup_canvas();
-    update_display();
-}
-
-
 // Putting the content of the previous questions list into the correct element
 function display_questions_list(){
     var questions_list_div = document.getElementById("questions_list");
@@ -212,6 +185,9 @@ function display_questions_list(){
     questions_list_div.innerHTML = questions_list_text;
 }
 
+
+
+
 // Calls to other required functions when this method is called to (e.g. by question submission)
 function update_display(){
     // canvas
@@ -220,4 +196,31 @@ function update_display(){
     display_questions_list();
 }
 
-setup();
+function setup(){
+    // Make a call to get_previous_questions, as this will check our localStorage.
+    user_data.previous_questions = get_previous_questions();
+    setup_canvas();
+    update_display();
+}
+
+
+var ball_canvas = new Object();
+var ball_visual = new Object();
+
+// Setup the canvas for use
+function setup_canvas(){
+    ball_canvas.canvas = document.getElementById("ball_canvas");
+    if (ball_canvas.canvas.getContext){
+        ball_canvas.context = ball_canvas.canvas.getContext('2d');
+        ball_canvas.canvas.width = 400;
+        ball_canvas.canvas.height = 400;
+    }
+    ball_visual.centre_x = ball_canvas.canvas.width / 2;
+    ball_visual.centre_y = ball_canvas.canvas.height / 2;
+    ball_visual.radius = 180;
+    ball_visual.window_radius = 90;
+}
+
+if(document.getElementById("ball_canvas")){
+    setup();
+}

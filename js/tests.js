@@ -19,19 +19,21 @@ QUnit.test("should not get the same response twice in a row", function( assert )
 
 // When a question is submitted, save it to show later - truncating answer response (RNG)
 QUnit.test("should save the last question asked locally (in LocalStorage and/field)", function ( assert ) {
+    localStorage.removeItem("stored_previous_questions");
     var test_question = "saved 7";
-    submit_question(test_question);
+    update_previous_questions(test_question,"");
     var previous_question = get_previous_questions()[2].substring(0, 7);
     assert.equal(previous_question, test_question,  "Matched \'" + test_question + "\'' with \'" + previous_question + "\'");
 });
 
 // Make sure that of the save questions, the oldest is replaced by the newest - truncating answer response (RNG)
 QUnit.test("should overwrite the oldest question with the newest", function( assert ){
+    localStorage.removeItem("stored_previous_questions");
     var test_question_to_go_away = "some question - test question 1";
-    submit_question("saved 1");
-    submit_question("saved 2");
-    submit_question("saved 3");
-    submit_question("saved 4");
+    update_previous_questions("saved 1","");
+    update_previous_questions("saved 2","");
+    update_previous_questions("saved 3","");
+    update_previous_questions("saved 4","");
     var previous_question_list = get_previous_questions();
     for(var i=0; i < previous_question_list.length; i++){
         var test_number = i + 2;
