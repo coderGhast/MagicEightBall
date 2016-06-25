@@ -7,81 +7,36 @@ function get_response_number() {
 // If we pass a previous response, we don't want to see it again.
 function get_new_response_number(last_response) {
     var current_response = last_response;
-    while(current_response == last_response){
+    while(current_response === last_response){
         current_response = get_response_number();
     }
 
     return current_response;
 }
 
-function get_response_text(response_number){
-    var response;
-    switch(response_number){
-        case(1) : 
-            response = "It is certain"
-            break; 
-        case(2) :
-            response = "It is decidedly so"
-            break;
-        case(3) :
-            response = "Without a doubt"
-            break;
-        case(4) :
-            response = "Yes, definitely"
-            break;
-        case(5) :
-            response = "You may rely on it"
-            break;
-        case(6) :
-            response = "As I see it, yes"
-            break;
-        case(7) :
-            response = "Most likely"
-            break;
-        case(8) :
-            response = "Outlook good"
-            break;
-        case(9) :
-            response = "Yes"
-            break;
-        case(10) :
-            response = "Signs point to yes"
-            break;
-        case(11) :
-            response = "Reply hazy try again"
-            break;
-        case(12) :
-            response = "Ask again later"
-            break;
-        case(13) :
-            response = "Better not tell you now"
-            break;
-        case(14) :
-            response = "Cannot predict now"
-            break;
-        case(15) :
-            response = "Concentrate and ask again"
-            break;
-        case(16) :
-            response = "Don't count on it"
-            break;
-        case(17) :
-            response = "My reply is no"
-            break;
-        case(18) :
-            response = "My sources say no"
-            break;
-        case(19) :
-            response = "Outlook not so good"
-            break;
-        case(20) :
-            response = "Very doubtful"
-            break;
-        default :
-            response = "Failed to understand question"
-    }
-    return response;
-}
+var response_text_choices = [
+    "Failed to understand question",
+    "It is certain",
+    "It is decidedly so",
+    "Without a doubt",
+    "Yes, definitely",
+    "You may rely on it",
+    "As I see it, yes",
+    "Most likely",
+    "Outlook good",
+    "Yes",
+    "Signs point to yes",
+    "Reply hazy try again",
+    "Ask again later",
+    "Better not tell you now",
+    "Cannot predict now",
+    "Concentrate and ask again",
+    "Don't count on it",
+    "My reply is no",
+    "My sources say no",
+    "Outlook not so good",
+    "Very doubtful"
+];
 
 // An Object for handling the user data
 var user_data = new Object();
@@ -141,7 +96,7 @@ function submit_question(question){
 
     // Update holding on to the last response (the one we just got now).
     user_data.previous_response_number = response_number;
-    var response_text = get_response_text(response_number);
+    var response_text = response_text_choices[response_number];
     update_previous_questions(question, response_text);
     return response_number;
 }

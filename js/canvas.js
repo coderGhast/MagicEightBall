@@ -51,7 +51,7 @@ function draw_die(context){
 function draw_text(context){
     context.font = "10px Arial";
     context.fillStyle = "#ffffff";
-    var response_text = get_response_text(user_data.current_response_number);
+    var response_text = response_text_choices[user_data.current_response_number];
     var response_text_break = "";
     for(var i=0; i < response_text.length; i++){
         // If we have a longer response and find a space, split it there.
